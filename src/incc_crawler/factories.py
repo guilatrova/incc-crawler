@@ -9,7 +9,14 @@ def parse_cells(cells):
         if content == "-":
             yield None
         else:
-            yield content.replace(",", ".")
+            stripped = content.replace(",", ".")
+            try:
+                if stripped.isdigit():
+                    yield int(stripped)
+                else:
+                    yield float(stripped)
+            except ValueError:
+                yield stripped
 
 
 def build_overview(payload) -> dtos.TableResult:
