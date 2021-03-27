@@ -39,7 +39,7 @@ class CurPeriodBuilder(BaseBuilder):
             f"acumulado no ano: *{last_period.accumulated_year}%*\n"
         )
 
-class PrevPeriodBuilder(BaseBuilder):
+class PrevPeriodDiffBuilder(BaseBuilder):
     def _build(self, overview: dtos.TableResult, complete: dtos.TableResult, msg: str) -> str:
         if len(overview.rows) < 2:
             return msg
@@ -47,10 +47,11 @@ class PrevPeriodBuilder(BaseBuilder):
         last_period: dtos.OverviewEntry = overview.rows[0]
         period_before: dtos.OverviewEntry = overview.rows[1]
         diff = self.calc_diff(last_period, period_before)
+        sign = "📉" if diff > 0 else "📈"
 
         return (
             f"{msg}"
-            f"Mês anterior: {period_before.value}% / Diferença: *{diff:.{1}f}%*\n"
+            f"Diferença: *{sign}{diff:.{1}f}%* / Mês anterior: {period_before.value}%\n"
         )
 
     def calc_diff(self, last: dtos.OverviewEntry, prev: dtos.OverviewEntry):
@@ -78,14 +79,14 @@ class FooterDetailsBuilder(BaseBuilder):
 
 class TrimmerBuilder(BaseBuilder):
     def _build(self, overview: dtos.TableResult, complete: dtos.TableResult, msg: str) -> str:
-        return msg.replace(".", "\.")
+        return msg.replace(".", "\.").replace("-", "\-")
 
 
 class MessageFactory:
     def build_message(self, overview: dtos.TableResult, complete: dtos.TableResult):
         builder = HeadlineBuilder()
         next_builder = builder.then(CurPeriodBuilder())
-        next_builder = next_builder.then(PrevPeriodBuilder())
+        next_builder = next_builder.then(PrevPeriodDiffBuilder())
 
         for prev_year in range(1, 5):
             next_builder = next_builder.then(PrevYearSamePeriodBuilder(prev_year))
