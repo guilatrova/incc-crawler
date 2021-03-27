@@ -11,6 +11,9 @@ Parameters:
   ChatId:
     Type: String
     Description: Chat id where the bot should send the message to
+  TriggerLink:
+    Type: String
+    Description: URL to trigger lambda again
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
@@ -28,7 +31,12 @@ Resources:
         Variables:
           BOT_TOKEN: !Ref BotToken
           CHAT_ID: !Ref ChatId
+          TRIGGER_URL: !Ref TriggerLink
       Events:
+        Scheduled:
+          Type: Schedule
+          Properties:
+            Schedule: 'cron(0 9 ? * 2#1 *)'  # 9:00 AM on the first Monday of each month
         CrawlerINCC:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:

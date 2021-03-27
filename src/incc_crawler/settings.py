@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     BOT_TOKEN: str
     CHAT_ID: str
     CHAT_PARSE_MODE: str = "MarkdownV2"  # or HTML
+    TRIGGER_URL: str = ""
 
 
 settings = Settings()

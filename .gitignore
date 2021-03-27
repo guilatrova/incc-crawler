@@ -153,3 +153,4 @@ Thumbs.db #thumbnail cache on Windows
 .vscode
 .env
 .aws-sam/
+samconfig.toml

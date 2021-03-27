@@ -1,4 +1,5 @@
 from incc_crawler import dtos
+from incc_crawler.settings import settings
 from incc_crawler.crawler import PAGE_URL
 
 from abc import ABC, abstractmethod
@@ -74,7 +75,11 @@ class PrevYearSamePeriodBuilder(BaseBuilder):
 
 class FooterDetailsBuilder(BaseBuilder):
     def _build(self, overview: dtos.TableResult, complete: dtos.TableResult, msg: str) -> str:
-        return msg + f"\n\n[Ver detalhes]({PAGE_URL})"
+        return (
+            f"{msg}\n\n"
+            f"[Ver detalhes]({PAGE_URL})\n"
+            f"[Emitir novamente]({settings.TRIGGER_URL})"
+        )
 
 
 class TrimmerBuilder(BaseBuilder):
