@@ -90,8 +90,6 @@ class MessageFactory:
         for prev_year in range(1, 5):
             next_builder = next_builder.then(PrevYearSamePeriodBuilder(prev_year))
 
-        # next_builder = next_builder.then(PrevYearSamePeriodBuilder(2))
-        # next_builder = next_builder.then(PrevYearSamePeriodBuilder(3))
         next_builder = next_builder.then(FooterDetailsBuilder())
         next_builder = next_builder.then(TrimmerBuilder())
 
