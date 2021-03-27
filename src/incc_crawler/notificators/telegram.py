@@ -17,14 +17,16 @@ class TelegramNotificator:
         )
         return url
 
-    def send(self, result, t2) -> bool:
-        message = self.message_factory.build_message(result, t2)
+    def send(self, overview, total) -> bool:
+        message = self.message_factory.build_message(overview, total)
         url = self._build_url(message)
 
         response = requests.get(url)
+
         print("=" * 20)
         print(response)
         print(response.text)
         print("=" * 20)
+
         response.raise_for_status()
         return True
