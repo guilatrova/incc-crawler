@@ -36,7 +36,7 @@ Resources:
         Scheduled:
           Type: Schedule
           Properties:
-            Schedule: 'cron(0 9 ? * 2#1 *)'  # 9:00 AM on the first Monday of each month
+            Schedule: 'cron(0 9 10 * ? *)'  # 09:00 AM on day 10 of each month
         CrawlerINCC:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
